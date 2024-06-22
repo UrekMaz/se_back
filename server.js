@@ -33,7 +33,9 @@ mongoose.connect(MONGODB_URI, {
 
 // Use the UserRouter for routes starting with /user
 app.use('/user', UserRouter);
-
+app.get("/",(req,res)=>{
+  res.send("hi");
+})
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
