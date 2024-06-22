@@ -1,9 +1,18 @@
 import express from 'express';
+// <<<<<<< yangBackend
 // import User from '../models/UserSchema.js';
 import HotelPendingTasks from '../models/HotelPendingTasks.js';
 import HotelRoom from '../models/HotelRoom.js'; 
 import HotelUser from '../models/User.js';
 
+// =======
+import User from '../models/UserSchema.js';  // Add .js extension
+import HotelLogin from '../models/hotelLogin.js';
+import RestroPending from '../models/restroPending.js';
+import HotelRestro from '../models/hotelRestro.js';
+import RoomBill from '../models/roomBills.js';
+import RoomCurrentBillCycle from '../models/roomCurrentBillCycle.js';
+// >>>>>>> main
 const router = express.Router();
 
 // router.post("/login", async (req, res) => {
