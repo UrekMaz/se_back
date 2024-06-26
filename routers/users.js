@@ -8,8 +8,8 @@ import OrderSelected from '../models/orderSelection.js';
 let storedArray = [];
 import HousekeepingService from '../models/housekeeperinput.js';
 import SelectedItems from '../models/housekeeperSelected.js';
-router.get("/in-room-dining/:hotelId", async (req, res) => {
-  const { hotelId } = req.query;
+router.get("/in-room-dining/:hotelId/:userId", async (req, res) => {
+  const { hotelId } = req.params;
 
   try {
     const hotelRestro = await HotelRestro.findOne({ hotel_id: hotelId }).exec();
@@ -26,7 +26,7 @@ router.get("/in-room-dining/:hotelId", async (req, res) => {
   }
 });
 
-router.get("/in-room-dining/:hotelId/:restoId", async (req, res) => {
+router.get("/in-room-dining/:hotelId/:restoId/:userId", async (req, res) => {
   const { hotelId, restoId } = req.params; 
 
   try {
@@ -122,7 +122,7 @@ router.post("/in-room-dining/:hotelId/:restoId/:userId", async (req, res) => {
     });
 
     // Save the updated or new hotel user document
-    await hotelUser.save();
+    //await hotelUser.save();
 
     // Prepare the current selected items to be saved in the order
     const orderItems = selectedItems.map(item => ({
@@ -261,6 +261,31 @@ router.get("/orderhistory/:userId", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
+router.patch('/orderconfirmation/:orderId', async (req, res) => {
+  const orderId = req.params.orderId;
+
+  try {
+    // Find the order by orderId and update the confirmed field
+    const updatedOrder = await OrderSelected.findOneAndUpdate(
+      { 'restro.order_id': orderId },
+      { $set: { confirmed: true } }, // Update confirmed directly
+      { new: true }
+    );
+
+    if (!updatedOrder) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    // Send back the updated order (optional)
+    res.json(updatedOrder);
+  } catch (error) {
+    console.error('Error updating order:', error);
+    res.status(500).json({ error: 'Failed to update order' });
+  }
+});
+
+
 
 router.get('/housekeeping/:hotelId/:userId', async (req, res) => {
   const { hotelId } = req.params;

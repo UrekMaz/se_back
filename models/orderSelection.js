@@ -49,9 +49,12 @@ const restroSchema = new Schema({
 const hotelUserSchema = new Schema({
   hotel_id: { type: String, required: true },
   user_id: { type: String, required: true },
+  confirmed:{type:Boolean,default:false},
   restro: [restroSchema], // Nested schema for restros under each hotel user
   date_of_order: { type: Date, required: true },
-  time_of_order: { type: String, required: true }
+  time_of_order: { type: String, required: true },
+  completed: { type: Boolean, default: false },
+  time_of_completion: { type: Date, required: false},
 });
 
 const OrderSelected = mongoose.model('OrderSelected', hotelUserSchema);
