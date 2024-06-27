@@ -12,7 +12,10 @@ import { HousekeeperRouter } from './routers/housekeeper.js';
 import { MasterRouter } from './routers/master.js';
 import { RestaurantRouter } from './routers/restaurant.js';
 import HotelRestro from './models/hotelRestro.js';
+import HotelUser from './models/User.js';
 import cors from 'cors'; // Import the cors package
+import HousekeepingService from './models/housekeeperinput.js';
+
 // Load environment variables from .env file
 dotenv.config();
 
@@ -43,10 +46,6 @@ mongoose.connect(MONGODB_URI, {
   console.error('Error connecting to MongoDB:', error);
 });
 
-
-// Function to create an entry
-
-
 // Use the UserRouter for routes starting with /userhttps://cloud.mongodb.com/v2/6671ace65520dc7ff34515f8#/deviceSync
 app.use('/user', UserRouter);
 app.use('/manager', ManagerRouter);
@@ -56,13 +55,6 @@ app.use('/restaurant', RestaurantRouter);
 app.get("/",(req,res)=>{
   res.send("hi");
 })
-
-
-
-
-
-
-
 
 // Example function to create a new manager
 
