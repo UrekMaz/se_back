@@ -12,6 +12,7 @@ const RestroSchema = new mongoose.Schema({
   description: { type: String, required: true },
   rating: { type: Number, required: true },
   name: { type: String, required: true },
+  restro_id: { type: String, required: true },
   menu: {
     starters: [FoodItemSchema],
     main: [FoodItemSchema],
@@ -44,6 +45,7 @@ const UserHousekeepingSchema = new mongoose.Schema({
 });
 
 const HotelUserSchema = new mongoose.Schema({
+  user_id:{ type: String, required: true },
   hotel_id: { type: String, required: true },
   restro: [RestroSchema],
   user_order_history: UserOrderHistorySchema,
