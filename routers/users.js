@@ -4,10 +4,10 @@ import HotelUser from '../models/User.js';
 const router = express.Router();
 import HotelUserSelected from '../models/hotelUserMenu.js';
 import mongoose from 'mongoose';
-import OrderSelected from '../models/orderSelection.js';
+import OrderSelected from '../models/orderSelected.js';
 let storedArray = [];
 import HousekeepingService from '../models/housekeeperinput.js';
-import SelectedItems from '../models/housekeeperSelected.js';
+import SelectedItems from '../models/selectedItemsSchema.js';
 router.get("/in-room-dining/:hotelId/:userId", async (req, res) => {
   const { hotelId } = req.params;
 
