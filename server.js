@@ -8,7 +8,9 @@ import { UserRouter } from './routers/users.js';
 import { ManagerRouter } from './routers/manager.js';
 import { HousekeeperRouter } from './routers/housekeeper.js';
 import { MasterRouter } from './routers/master.js';
-
+import { HotelRoomRouter } from './routers/hotelroom.js';
+import completedTasksRouter from './routers/completedTasks.js';
+import billingManagerRouter from './routers/billingManager.js';
 // <<<<<<< hrishikeshSide
 import { RestaurantRouter } from './routers/restroPending.js';
 import { hotelPendingTasksRouter } from './routers/hotelPendingTasksRouter.js';
@@ -56,6 +58,9 @@ app.use('/master', MasterRouter);
 app.use('/housekeeper', HousekeeperRouter);
 app.use('/restaurant', RestaurantRouter);
 // <<<<<<< hrishikeshSide
+app.use('/hotelroom', HotelRoomRouter);
+app.use('/completedTasks', completedTasksRouter);
+app.use('/billingManager', billingManagerRouter); 
 app.use('/hotel-tasks', hotelPendingTasksRouter);
 app.use('/hotel-employees', hotelEmployeesRouter);
 app.use('/selected-items', selectedItemsRouter); // Use the new router
@@ -69,6 +74,22 @@ app.use('/selected-items', selectedItemsRouter); // Use the new router
 
 app.get("/", (req, res) => {
   res.send("hi");
+});
+app.get('/billing/:roomNumber', async (req, res) => {
+  const { roomNumber } = req.params;
+
+  try {
+    const billingData = await RoomBill.findOne({ room_id: roomNumber });
+
+    if (!billingData) {
+      return res.status(404).json({ error: 'Billing data not found' });
+    }
+
+    res.status(200).json(billingData);
+  } catch (error) {
+    console.error('Error fetching billing data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 app.listen(PORT, () => {
