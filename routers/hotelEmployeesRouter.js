@@ -1,7 +1,6 @@
 import express from 'express';
 import HotelEmployees from '../models/hotelEmployees.js';
 
-
 const router = express.Router();
 
 // Route to get all housekeepers for a specific hotel
@@ -9,9 +8,9 @@ router.get('/housekeepers/:hotelId', async (req, res) => {
   const { hotelId } = req.params;
   try {
     console.log("Fetching Housekeepers");
-    const employees = await HotelEmployees.find({ 'housekeeper.hotel_id': hotelId });
-    if (employees.length > 0) {
-      const housekeepers = employees.map(emp => emp.housekeeper).flat().map(hk => ({
+    const hotelEmployees = await HotelEmployees.findOne({ hotelId });
+    if (hotelEmployees && hotelEmployees.housekeepers.length > 0) {
+      const housekeepers = hotelEmployees.housekeepers.map(hk => ({
         user_id: hk.user_id,
         name: hk.name
       }));

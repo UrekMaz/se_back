@@ -2,7 +2,7 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import HotelLogin from '../models/hotelLogin.js';
 import OrderSelected from '../models/orderSelected.js';
-
+console.log("Reched Restro Side");
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
@@ -33,9 +33,10 @@ router.post("/login", async (req, res) => {
 router.get('/pending-orders/:hotelId', async (req, res) => {
   const { hotelId } = req.params;
   try {
-    console.log("Trying to fetch orders");
+    console.log("Trying to fetch orders...");
     const orders = await OrderSelected.find({ hotel_id: hotelId, completed: false, confirmed: true });
     console.log(orders);
+    console.log("Successfully Got Orders!");
     res.status(200).json(orders);
   } catch (error) {
     console.error(error);

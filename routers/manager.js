@@ -8,11 +8,18 @@ router.post("/login", async (req, res) => {
   const { hotelId, userId, password } = req.body;
   try {
     console.log("backend works");
-    const hotelLogin = await HotelLogin.findOne({ 'manager.hotel_id': hotelId, 'manager.user_id': userId });
+    console.log("Password while checking : " + password);
+    console.log("User Id while checking : " + userId);
+    console.log("Hotel Id while checking : " + hotelId);
+
+    const hotel_id = hotelId;
+    const user_id = userId;
+    const hotelLogin = await HotelLogin.findOne({ 'manager.hotel_id': hotel_id, 'manager.user_id': user_id });
+    console.log("Hotel Login weather found: " + hotelLogin);
     if (!hotelLogin) {
       return res.status(404).json({ message: "User does not exist" });
     }
-
+    
     const manager = hotelLogin.manager;
     
     // Validate password using bcrypt
