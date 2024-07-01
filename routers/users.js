@@ -245,17 +245,21 @@ router.get('/orderconfirmation/:hotelId/:restoId/:userId/:orderId', async (req, 
   }
 });
 
-router.get("/orderhistory/:userId", async (req, res) => {
-  const { userId } = req.params;
+router.get("/orderhistory/:hotelId/:userId", async (req, res) => {
+  const {hotelId, userId } = req.params;
 
   try {
+    console.log("Trying to fetch order history....");
+    console.log("My hotel Id is: " + hotelId);
     const orders = await OrderSelected.find({ user_id: userId });
-
+    console.log(orders);
     if (orders.length > 0) {
       res.json(orders);
     } else {
       res.status(404).json({ error: "No orders found for this user." });
     }
+    console.log("Order history Fetched!");
+
   } catch (error) {
     console.error('Error fetching order history:', error);
     res.status(500).json({ error: "Server error" });
@@ -266,7 +270,9 @@ router.patch('/orderconfirmation/:orderId', async (req, res) => {
   const orderId = req.params.orderId;
 
   try {
+    console.log("Trying to confirm order...");
     // Find the order by orderId and update the confirmed field
+    console.log("The order Id is : " + orderId);
     const updatedOrder = await OrderSelected.findOneAndUpdate(
       { 'restro.order_id': orderId },
       { $set: { confirmed: true } }, // Update confirmed directly
@@ -276,6 +282,7 @@ router.patch('/orderconfirmation/:orderId', async (req, res) => {
     if (!updatedOrder) {
       return res.status(404).json({ error: 'Order not found' });
     }
+    console.log("Order Confirmed!");
 
     // Send back the updated order (optional)
     res.json(updatedOrder);
